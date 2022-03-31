@@ -1,0 +1,22 @@
+.input {
+  width: 30rem;
+  padding: 0.5rem 1rem;
+  font-size: 1.5rem;
+  color: inherit;
+  background-color: rgba(var(--color-white), 0.5);
+  display: block;
+
+  border: none;
+  border-bottom: 3px solid var(--color-primary);
+  border-radius: 2px;
+  transition: all 0.3s;
+
+  &:focus {
+    outline: none;
+    box-shadow: 0 1rem 2rem rgba(var(--color-black), 0.1);
+  }
+
+  &::-webkit-input-placeholder {
+    color: grey;
+  }
+}

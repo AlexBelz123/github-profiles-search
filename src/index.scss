@@ -1,0 +1,31 @@
+*,
+*::after,
+*::before {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit;
+}
+
+html {
+  // This defines what 1rem is
+  font-size: 62.5%;
+}
+
+body {
+  box-sizing: border-box;
+  padding: 3rem;
+}
+
+:root {
+  // COLORS
+  --color-primary: #171515;
+  --color-secondary: #e8eaea;
+  --color-black: #000;
+  --color-white: #fff;
+}
+
+// can create App.scss - but in our case it's unnecessary work for only one class name
+.container {
+  width: 80vw;
+  margin: 0 auto;
+}
