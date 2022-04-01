@@ -24,3 +24,10 @@ export interface IUserProfileResponse {
   total_count: number;
   items: IUserProfile[];
 }
+
+export interface IPaginationData {
+  currentPage: number;
+  totalPages: number;
+  pageLimit: number;
+  totalRecords: number;
+}

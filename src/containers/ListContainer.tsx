@@ -2,34 +2,25 @@ import { useState, useEffect, FC } from 'react';
 import { Search, Spinner } from '../components';
 import { ProfileList } from '../common';
 import { useDebounce } from '../hooks';
-import { IUserProfile } from '../types';
+import { IUserProfile, IPaginationData } from '../types';
 import { fetchUserProfiles } from '../services';
-import Pagination from '../components/Pagination/test';
+import Pagination from '../components/Pagination/';
 import './index.scss';
 
-const LIMIT = 4;
+const LIMIT = 6;
 
 const ListContainer = () => {
   const [value, setValue] = useState('');
   const [isSearching, setIsSearching] = useState(false);
   const [users, setUsers] = useState<IUserProfile[]>([]);
-  const [currentPage, setCurrentPage] = useState(1);
-  const totalRecords = users.length;
-
-  // pagination
-  // const lastIndex = currentPage * LIMIT;
-  // const firstIndex = lastIndex - LIMIT;
-  // const currentUsers = users.slice(firstIndex, lastIndex);
-  // const totalRecords = Math.ceil(users.length / LIMIT);
+  const [currentUsers, setCurrentUsers] = useState<IUserProfile[]>([]);
+  const totalUsers = users.length;
 
   const debouncedValue: string = useDebounce<string>(value, 500);
 
   const getUsers = async () => {
     try {
-      const { total_count, items } = await fetchUserProfiles(
-        value,
-        currentPage
-      );
+      const { total_count, items } = await fetchUserProfiles(value, 1);
       setUsers((prevUsers) => [...prevUsers, ...items]);
       setIsSearching(false);
     } catch (err) {
@@ -37,14 +28,13 @@ const ListContainer = () => {
     }
   };
 
-  const onPageChanged = (data: any) => {
+  const onPageChanged = (data: IPaginationData) => {
     const { currentPage, pageLimit } = data;
 
     const offset = (currentPage - 1) * pageLimit;
-    const currentUsers = users.slice(offset, offset + pageLimit);
+    const currentCountries = users.slice(offset, offset + pageLimit);
 
-    setUsers(currentUsers);
-    setCurrentPage(currentPage);
+    setCurrentUsers(currentCountries);
   };
 
   useEffect(() => {
@@ -63,10 +53,11 @@ const ListContainer = () => {
         <Spinner />
       ) : (
         <>
-          <ProfileList users={users} />
+          <ProfileList users={currentUsers} />
           <Pagination
-            totalRecords={totalRecords}
+            totalRecords={totalUsers}
             pageLimit={LIMIT}
+            pageNeighbours={1}
             onPageChanged={onPageChanged}
           />
         </>

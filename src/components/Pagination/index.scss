@@ -1,26 +1,33 @@
-.pagination {
-  padding: 2.5rem 5rem;
-  background-color: var(--color-secondary);
+ul.pagination {
+  margin-top: 0;
+  margin-bottom: 0;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  font-size: 2rem;
+  list-style: none;
   display: flex;
   align-items: center;
 
-  &__item {
-    padding: 1rem;
-    font-size: 1.6rem;
-    background-color: var(--color-primary);
-    color: var(--color-secondary);
-    cursor: pointer;
-    border-radius: 3px;
-    border: none;
-    outline: none;
-
-    &:not(:last-child) {
-      margin-right: 1rem;
+  & li.page-item {
+    overflow: hidden;
+    & .active a.page-link {
+      color: #445565 !important;
+      background-color: #e3e7eb !important;
+      border-color: #ced4da !important;
     }
+  }
 
-    &:active {
-      background-color: var(--color-secondary);
-      color: var(--color-primary);
-    }
+  & a.page-link {
+    text-decoration: none;
+    padding: 0.75rem 1rem;
+    min-width: 3.5rem;
+    text-align: center;
+    box-shadow: none !important;
+    border-color: #ced4da !important;
+    color: #6b88a4;
+    font-weight: 900;
+  }
+
+  & a.page-link:hover {
+    background-color: #f4f4f4;
   }
 }
