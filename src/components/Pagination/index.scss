@@ -1,7 +1,26 @@
 .pagination {
-  width: 100%;
-  padding: 1rem 1rem;
+  padding: 2.5rem 5rem;
   background-color: var(--color-secondary);
-  color: var(--color-primary);
-  text-align: center;
+  display: flex;
+  align-items: center;
+
+  &__item {
+    padding: 1rem;
+    font-size: 1.6rem;
+    background-color: var(--color-primary);
+    color: var(--color-secondary);
+    cursor: pointer;
+    border-radius: 3px;
+    border: none;
+    outline: none;
+
+    &:not(:last-child) {
+      margin-right: 1rem;
+    }
+
+    &:active {
+      background-color: var(--color-secondary);
+      color: var(--color-primary);
+    }
+  }
 }
