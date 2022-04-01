@@ -9,14 +9,14 @@ ul.pagination {
 
   & li.page-item {
     overflow: hidden;
-    & .active a.page-link {
+    & .active .page-link {
       color: #445565 !important;
       background-color: #e3e7eb !important;
       border-color: #ced4da !important;
     }
   }
 
-  & a.page-link {
+  & .page-link {
     text-decoration: none;
     padding: 0.75rem 1rem;
     min-width: 3.5rem;
@@ -25,9 +25,10 @@ ul.pagination {
     border-color: #ced4da !important;
     color: #6b88a4;
     font-weight: 900;
+    cursor: pointer;
   }
 
-  & a.page-link:hover {
+  & .page-link:hover {
     background-color: #f4f4f4;
   }
 }

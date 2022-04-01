@@ -1,11 +1,10 @@
-$size: 30px;
-
 .spinner {
+  --size: 30px;
   position: absolute;
-  top: calc(50% - #{$size / 2});
-  left: calc(50% - #{$size / 2});
-  width: $size;
-  height: $size;
+  top: calc(50% - #{var(--size) / 2});
+  left: calc(50% - #{var(--size) / 2});
+  width: var(--size);
+  height: var(--size);
   animation: spinner 0.75s linear infinite;
 
   span {
@@ -18,27 +17,23 @@ $size: 30px;
   .spinner-inner-1 {
     background: linear-gradient(
       to right,
-      rgba(var(--color-primary), 0) 0%,
-      rgba(var(--color-primary), 0) 50%,
-      var(--color-primary) 51%
+      rgba(black, 0) 0%,
+      rgba(black, 0) 50%,
+      black 51%
     );
   }
 
   .spinner-inner-2 {
-    background: linear-gradient(
-      to top,
-      rgba(var(--color-secondary), 0) 0%,
-      var(--color-secondary) 100%
-    );
+    background: linear-gradient(to top, rgba(white, 0) 0%, white 100%);
   }
 
   .spinner-inner-3 {
-    $offset: $size * 0.1;
-    top: $offset;
-    left: $offset;
-    width: $size - ($offset * 2);
-    height: $size - ($offset * 2);
-    background: var(--color-secondary);
+    --offset: var(--size) * 0.1;
+    top: var(--offset);
+    left: var(--offset);
+    width: calc(var(--size) - (var(--offset) * 2));
+    height: calc(var(--size) - (var(--offset) * 2));
+    background: white;
   }
 }
 

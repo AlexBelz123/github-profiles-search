@@ -1,6 +1,6 @@
 import { useState, useEffect, FC } from 'react';
 import { Search, Spinner } from '../components';
-import { ProfileList } from '../common';
+import { ProfileList, CenteredHeader } from '../common';
 import { useDebounce } from '../hooks';
 import { IUserProfile, IPaginationData } from '../types';
 import { fetchUserProfiles } from '../services';
@@ -32,9 +32,9 @@ const ListContainer = () => {
     const { currentPage, pageLimit } = data;
 
     const offset = (currentPage - 1) * pageLimit;
-    const currentCountries = users.slice(offset, offset + pageLimit);
+    const currentUsers = users.slice(offset, offset + pageLimit);
 
-    setCurrentUsers(currentCountries);
+    setCurrentUsers(currentUsers);
   };
 
   useEffect(() => {
@@ -43,12 +43,16 @@ const ListContainer = () => {
       getUsers();
     } else {
       setUsers([]);
+      setCurrentUsers([]);
     }
   }, [debouncedValue]);
 
   return (
     <div className="flex-vertical">
       <Search value={value} setValue={setValue} />
+      {!isSearching && !users.length && (
+        <CenteredHeader header="Enter some text to search github user profiles" />
+      )}
       {isSearching ? (
         <Spinner />
       ) : (
