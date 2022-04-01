@@ -12,14 +12,18 @@ const ProfileItem: FC<ProfileListProps> = ({ user }) => {
         <img className="profile__img" src={user.avatar_url} alt={user.login} />
       </div>
       <p className="profile__header">
-        <a
-          className="profile__link"
-          href={user.html_url}
-          rel="noreferrer"
-          target="_blank"
-        >
-          {user.login}
-        </a>
+        <div className="profile__name">{user.login}</div>
+        <div className="profile__details">
+          <div className="profile__score">Score: {user.score}</div>
+          <a
+            className="profile__link"
+            href={user.html_url}
+            rel="noreferrer"
+            target="_blank"
+          >
+            Profile link
+          </a>
+        </div>
       </p>
     </div>
   );
