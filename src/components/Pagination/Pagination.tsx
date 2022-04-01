@@ -109,7 +109,7 @@ const Pagination: FC<PaginationProps> = ({
 
   return (
     <Fragment>
-      {totalPages < 1 ? null : (
+      {totalRecords && totalPages <= 1 ? null : (
         <ul className="pagination">
           {pages.map((page, index) => {
             if (page === LEFT_PAGE)

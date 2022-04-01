@@ -11,7 +11,7 @@ const ProfileItem: FC<ProfileListProps> = ({ user }) => {
       <div className="profile__img-wrapper">
         <img className="profile__img" src={user.avatar_url} alt={user.login} />
       </div>
-      <p className="profile__header">
+      <div className="profile__header">
         <div className="profile__name">{user.login}</div>
         <div className="profile__details">
           <div className="profile__score">Score: {user.score}</div>
@@ -24,7 +24,7 @@ const ProfileItem: FC<ProfileListProps> = ({ user }) => {
             Profile link
           </a>
         </div>
-      </p>
+      </div>
     </div>
   );
 };

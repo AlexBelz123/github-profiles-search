@@ -7,43 +7,51 @@ import { fetchUserProfiles } from '../services';
 import Pagination from '../components/Pagination/';
 import './index.scss';
 
-const LIMIT = 6;
+const LIMIT = 35;
+const GITHUB_PROFILES_LIMIT = 35;
 
 const ListContainer = () => {
   const [value, setValue] = useState('');
   const [isSearching, setIsSearching] = useState(false);
   const [users, setUsers] = useState<IUserProfile[]>([]);
-  const [currentUsers, setCurrentUsers] = useState<IUserProfile[]>([]);
-  const totalUsers = users.length;
+  const [totalUsers, setTotalUsers] = useState(0);
+  // line below is additional cuz github api can fetch only first 1000 profiles
+  const githubTotalUsers = totalUsers >= 1000 ? 1000 : totalUsers;
+
+  console.log(totalUsers);
 
   const debouncedValue: string = useDebounce<string>(value, 500);
 
-  const getUsers = async () => {
+  const getUsersForCurrentQuery = async (page: number) => {
     try {
-      const { total_count, items } = await fetchUserProfiles(value, 1);
-      setUsers((prevUsers) => [...prevUsers, ...items]);
-      setIsSearching(false);
+      setIsSearching(true);
+      const { items } = await fetchUserProfiles(value, page);
+      setUsers(items);
     } catch (err) {
-      throw err;
+      alert('There is a rate limit to current API, try again later');
     }
+    setIsSearching(false);
   };
 
-  const onPageChanged = (data: IPaginationData) => {
-    const { currentPage, pageLimit } = data;
-
-    const offset = (currentPage - 1) * pageLimit;
-    const currentUsers = users.slice(offset, offset + pageLimit);
-
-    setCurrentUsers(currentUsers);
+  const onPageChanged = async (data: IPaginationData) => {
+    const { currentPage } = data;
+    if (currentPage) {
+      await getUsersForCurrentQuery(currentPage);
+    }
   };
 
   useEffect(() => {
     if (debouncedValue) {
-      setIsSearching(true);
-      getUsers();
+      fetchUserProfiles(value, 1).then((data) => {
+        setIsSearching(true);
+        const { total_count, items } = data;
+        setUsers(items);
+        setTotalUsers(Math.ceil(total_count / GITHUB_PROFILES_LIMIT));
+        setIsSearching(false);
+      });
     } else {
       setUsers([]);
-      setCurrentUsers([]);
+      setTotalUsers(0);
     }
   }, [debouncedValue]);
 
@@ -51,21 +59,15 @@ const ListContainer = () => {
     <div className="flex-vertical">
       <Search value={value} setValue={setValue} />
       {!isSearching && !users.length && (
-        <CenteredHeader header="Enter some text to search github user profiles" />
+        <CenteredHeader header="No results. Enter some text" />
       )}
-      {isSearching ? (
-        <Spinner />
-      ) : (
-        <>
-          <ProfileList users={currentUsers} />
-          <Pagination
-            totalRecords={totalUsers}
-            pageLimit={LIMIT}
-            pageNeighbours={1}
-            onPageChanged={onPageChanged}
-          />
-        </>
-      )}
+      {isSearching ? <Spinner /> : <ProfileList users={users} />}
+      <Pagination
+        totalRecords={githubTotalUsers}
+        pageLimit={LIMIT}
+        pageNeighbours={3}
+        onPageChanged={onPageChanged}
+      />
     </div>
   );
 };
